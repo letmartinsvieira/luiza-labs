@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package auth;
+
+service Auth {
+    rpc GetAuth(GetAuthRequest) returns (GetAuthResponse) {}
+    rpc CreateAuth(CreateAuthRequest) returns (CreateAuthResponse) {}
+    rpc GetAuthByEmail(GetAuthByEmailRequest) returns (GetAuthByEmailResponse) {}
+}
+
+message GetAuthRequest {
+    int32 client_id = 1;
+}
+
+message GetAuthResponse {
+    int32 id = 1;
+    string type = 2;
+    string credential = 3;
+    int32 client_id = 4;
+}
+
+message CreateAuthRequest {
+    string type = 1;
+    string credential = 2;
+    int32 client_id = 3;
+}
+
+message CreateAuthResponse {
+    int32 id = 1;
+}
+
+message GetAuthByEmailRequest {
+    string email = 1;
+}
+
+message GetAuthByEmailResponse {
+    int32 id = 1;
+    string type = 2;
+    string credential = 3;
+    int32 client_id = 4;
+}

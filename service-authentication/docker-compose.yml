@@ -1,0 +1,46 @@
+#version: '3.8'
+services:
+  postgres:
+    container_name: svc_authentication_postgres
+    image: postgres:15-alpine
+#    platform: linux/amd64
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data:z
+    networks:
+      - luiza-labs-test
+    ports:
+      - 5434:5432
+    restart: unless-stopped
+
+  service-authentication:
+    build:
+      context: .
+      args:
+        - INSTALL_WATCHDOG=true
+        - PROJECT_ENVIROMENT=development
+    image: test/service-authentication:development
+    env_file:
+      - .env-development
+#     environment:
+#       - PYTHONPATH=/app:/app/app/grpc/src
+#       - PATH=/app/bin:$PATH
+    command: python app/server.py
+    container_name: test_service_authentication
+    networks:
+      - luiza-labs-test
+    ports:
+      - 5022:5022
+    restart: unless-stopped
+    volumes:
+      - .:/app
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  luiza-labs-test:
+    external: true

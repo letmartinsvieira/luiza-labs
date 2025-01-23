@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package otp;
+
+service OTP {
+    rpc GetOTP(GetOTPRequest) returns (GetOTPResponse) {}
+    rpc GetOTPByCode(GetOTPByCodeRequest) returns (GetOTPByCodeResponse) {}
+    rpc CreateOTP(CreateOTPRequest) returns (CreateOTPResponse) {}
+    rpc ValidateOTP(ValidateOTPRequest) returns (ValidateOTPResponse) {}
+}
+
+message GetOTPRequest {
+    int32 id = 1;
+}
+
+message GetOTPResponse {
+    int32 id = 1;
+    int32 auth_id = 2;
+    string code = 3;
+    string token = 4;
+}
+
+message GetOTPByCodeRequest {
+    string code = 1;
+}
+
+message GetOTPByCodeResponse {
+    int32 id = 1;
+    int32 auth_id = 2;
+    string code = 3;
+    string token = 4;
+}
+
+message CreateOTPRequest {
+   string credential = 1;
+}
+
+message CreateOTPResponse {
+    string code = 1;
+}
+
+message ValidateOTPRequest {
+    string code = 1;
+    string credential = 2;
+}
+
+message ValidateOTPResponse {
+    int32 id = 1;
+    int32 auth_id = 2;
+    string code = 3;
+    string token = 4;
+}
