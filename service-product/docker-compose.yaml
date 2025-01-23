@@ -1,0 +1,19 @@
+services:
+  service-product:
+    build:
+      context: .
+    image: test/service-product:development
+    env_file: .env-development
+    command: python app/server.py
+    container_name: test_service_product
+    networks:
+      - luiza-labs-test
+    ports:
+      - 5023:5023
+    restart: unless-stopped
+    volumes:
+      - .:/app
+
+networks:
+  luiza-labs-test:
+    external: true
