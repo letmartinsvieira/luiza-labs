@@ -1,0 +1,26 @@
+services:
+  bff-client:
+    build:
+      context: .
+      args:
+        - INSTALL_WATCHDOG=true
+        - PROJECT_ENVIROMENT=development
+    image: test/bff-client:development
+    env_file:
+      - .env-development
+#     environment:
+#       - PYTHONPATH=/app:/app/app/grpc/src
+#       - PATH=/app/bin:$PATH
+    command: python app/server.py
+    container_name: test_bff_client
+    networks:
+      - luiza-labs-test
+    ports:
+      - 5025:5025
+    restart: unless-stopped
+    volumes:
+      - .:/app
+
+networks:
+  luiza-labs-test:
+    external: true

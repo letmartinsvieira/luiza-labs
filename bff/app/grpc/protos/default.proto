@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package client;
+
+service Default {
+    rpc HelloTest(HelloRequest) returns (HelloResponse) {}
+}
+message HelloRequest {
+    string check = 1;
+}
+
+message HelloResponse {
+    string status = 1;
+}
