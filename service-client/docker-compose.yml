@@ -1,0 +1,53 @@
+#version: '3.8'
+services:
+  postgres:
+    container_name: svc_client_postgres
+    image: postgres:15-alpine
+#    platform: linux/amd64
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data:z
+    networks:
+      - luiza-labs-test
+    ports:
+      - 5433:5432
+    restart: unless-stopped
+  redis:
+    image: redis
+    container_name: product_redis
+    command: redis-server
+    ports:
+      - "6379:6379"
+    networks:
+      - luiza-labs-test
+  service-client:
+    build:
+      context: .
+      args:
+        - INSTALL_WATCHDOG=true
+        - PROJECT_ENVIROMENT=development
+    image: test/service-client:development
+    env_file:
+      - .env-development
+#     environment:
+#       - PYTHONPATH=/app:/app/app/grpc/src
+#       - PATH=/app/bin:$PATH
+    command: python app/server.py
+    container_name: test_service_client
+    networks:
+      - luiza-labs-test
+    ports:
+      - 5021:5021
+    restart: unless-stopped
+    volumes:
+      - .:/app
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  luiza-labs-test:
+    external: true

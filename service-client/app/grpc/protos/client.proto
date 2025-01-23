@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package client;
+
+service Client {
+    rpc GetClient(GetClientRequest) returns (GetClientResponse) {}
+    rpc GetClientByEmail(GetClientByEmailRequest) returns (GetClientResponse) {}
+    rpc CreateClient(CreateClientRequest) returns (CreateClientResponse) {}
+    rpc UpdateClient(UpdateClientRequest) returns (UpdateClientResponse) {}
+    rpc DeleteClient(DeleteClientRequest) returns (DeleteClientResponse) {}
+}
+
+message GetClientRequest {
+    int32 client_id = 1;
+}
+
+message GetClientByEmailRequest {
+    string email = 1;
+}
+
+message GetClientResponse {
+    string name = 1;
+    string email = 2;
+    int32 client_id = 3;
+}
+
+message CreateClientRequest {
+    string name = 1;
+    string email = 2;
+}
+
+message CreateClientResponse {
+    int32 client_id = 1;
+}
+
+message UpdateClientRequest {
+    int32 client_id = 1;
+    string name = 2;
+    string email = 3;
+}
+
+message UpdateClientResponse {
+    string name = 1;
+    string email = 2;
+    int32 client_id = 3;
+}
+
+message DeleteClientRequest {
+    int32 client_id = 1;
+}
+
+message DeleteClientResponse {
+    string message = 1;
+}
